@@ -1,0 +1,10 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Images/About40x40.png</file>
+        <file>Images/Backward40x40.png</file>
+        <file>Images/Check40x40.png</file>
+        <file>Images/Forward40x40.png</file>
+        <file>Images/Top40x40.png</file>
+        <file>Icons/textbook.ico</file>
+    </qresource>
+</RCC>
