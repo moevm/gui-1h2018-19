@@ -26,11 +26,13 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += main.cpp\
         mainwindow.cpp \
     Model/textbookitem.cpp \
-    Model/slide.cpp
+    Model/slide.cpp \
+    Model/lecture.cpp
 
 HEADERS  += mainwindow.h \
     Model/textbookitem.h \
-    Model/slide.h
+    Model/slide.h \
+    Model/lecture.h
 
 FORMS    += mainwindow.ui
 
