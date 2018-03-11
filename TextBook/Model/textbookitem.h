@@ -9,14 +9,14 @@ protected:
 
 public:
     QString name() const;
-    void setName(QString value);
+    void setName(const QString &value);
 
     QString description() const;
-    void setDescription(QString value);
+    void setDescription(const QString &value);
 
 private:
-    QString _name;
-    QString _description;
+    QString m_name;
+    QString m_description;
 };
 
 #endif // TEXTBOOKITEM_H

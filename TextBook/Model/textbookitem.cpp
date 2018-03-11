@@ -2,27 +2,27 @@
 
 TextbookItem::TextbookItem()
 {
-    _name = "";
-    _description = "";
+    m_name = "";
+    m_description = "";
 }
 
 QString TextbookItem::name() const
 {
-    return _name;
+    return m_name;
 }
 
-void TextbookItem::setName(QString value)
+void TextbookItem::setName(const QString &value)
 {
-    _name = value;
+    m_name = value;
 }
 
 QString TextbookItem::description() const
 {
-    return _description;
+    return m_description;
 }
 
-void TextbookItem::setDescription(QString value)
+void TextbookItem::setDescription(const QString &value)
 {
-    _description = value;
+    m_description = value;
 }
 
