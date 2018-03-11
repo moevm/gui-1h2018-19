@@ -6,6 +6,11 @@ TextbookItem::TextbookItem()
     m_description = "";
 }
 
+TextbookItem::~TextbookItem()
+{
+    // do nothing
+}
+
 QString TextbookItem::name() const
 {
     return m_name;

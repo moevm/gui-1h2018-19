@@ -8,6 +8,8 @@ protected:
     TextbookItem();
 
 public:
+    virtual ~TextbookItem();
+
     QString name() const;
     void setName(const QString &value);
 
