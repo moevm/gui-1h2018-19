@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include "Model/contentmodel.h"
 
 namespace Ui {
 class MainWindow;
@@ -24,6 +25,9 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
+    ContentModel *model;
+
+    void initModel();
 };
 
 #endif // MAINWINDOW_H

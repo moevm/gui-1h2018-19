@@ -1,17 +1,7 @@
 #include "slide.h"
 
-Slide::Slide()
-    : TextbookItem()
+Slide::Slide(ContentPart *parent)
+    : ContentItem(parent)
 {
-    m_imageFileName = "";
-}
-
-QString Slide::imageFileName() const
-{
-    return m_imageFileName;
-}
-
-void Slide::setImageFileName(const QString &value)
-{
-    m_imageFileName = value;
+    m_imagePath = "";
 }

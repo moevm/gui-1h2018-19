@@ -1,18 +1,19 @@
 #ifndef SLIDE_H
 #define SLIDE_H
 #include <QString>
-#include "textbookitem.h"
+#include "contentitem.h"
+#include "contentpart.h"
 
-class Slide : public TextbookItem
+class Slide : public ContentItem
 {
 public:
-    Slide();
+    Slide(ContentPart *parent);
 
-    QString imageFileName() const;
-    void setImageFileName(const QString &value);
+    QString imagePath() const { return m_imagePath; }
+    void setImagePath(const QString &value) { m_imagePath = value; }
 
 private:
-    QString m_imageFileName;
+    QString m_imagePath;
 };
 
 #endif // SLIDE_H
