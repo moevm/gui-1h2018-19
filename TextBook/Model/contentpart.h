@@ -3,6 +3,11 @@
 #include <QList>
 #include "contentitem.h"
 
+enum ContentViewType {
+    SelectorView,
+    SlideView
+};
+
 class ContentPart : public ContentItem
 {
     friend class ContentItem;
@@ -11,10 +16,18 @@ public:
     ContentPart(ContentPart *parent);
     ~ContentPart();
 
+    virtual ContentViewType viewType() const { return ContentViewType::SelectorView; }
+
     const QList<ContentItem *> &items() const { return m_items; }
 
     int selectedIndex() const { return m_selectedIndex; }
+    void setSelectedIndex(int index);
+
     ContentItem* selectedItem() const;
+
+    bool canForward() const;
+    bool canBackward() const;
+    bool canLevelUp() const;
 
     void reset();
     void forward();

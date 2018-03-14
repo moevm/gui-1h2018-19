@@ -3,5 +3,5 @@
 ContentModel::ContentModel()
     : ContentPart(Q_NULLPTR)
 {
-    // TODO
+
 }

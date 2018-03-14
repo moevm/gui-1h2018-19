@@ -23,11 +23,16 @@ private slots:
     void on_butLevelUp_clicked();
     void on_butQuiz_clicked();
 
+    void on_selectorList_currentRowChanged(int currentRow);
+
 private:
     Ui::MainWindow *ui;
     ContentModel *model;
+    ContentPart *currentContent;
 
     void initModel();
+    void enableControls();
+    void updateView();
 };
 
 #endif // MAINWINDOW_H

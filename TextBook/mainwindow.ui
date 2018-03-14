@@ -111,7 +111,7 @@
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
-        <widget class="QWidget" name="selectorView" native="true">
+        <widget class="QWidget" name="selectorView">
          <layout class="QGridLayout" name="gridLayout_2">
           <property name="leftMargin">
            <number>0</number>
@@ -288,6 +288,12 @@
                 <property name="tabKeyNavigation">
                  <bool>true</bool>
                 </property>
+                <property name="selectionBehavior">
+                 <enum>QAbstractItemView::SelectRows</enum>
+                </property>
+                <property name="currentRow">
+                 <number>-1</number>
+                </property>
                </widget>
               </item>
               <item>
@@ -297,6 +303,12 @@
                   <horstretch>0</horstretch>
                   <verstretch>0</verstretch>
                  </sizepolicy>
+                </property>
+                <property name="font">
+                 <font>
+                  <family>Century Gothic</family>
+                  <pointsize>12</pointsize>
+                 </font>
                 </property>
                 <property name="frameShape">
                  <enum>QFrame::NoFrame</enum>
@@ -480,6 +492,12 @@
                   <horstretch>0</horstretch>
                   <verstretch>0</verstretch>
                  </sizepolicy>
+                </property>
+                <property name="font">
+                 <font>
+                  <family>Century Gothic</family>
+                  <pointsize>12</pointsize>
+                 </font>
                 </property>
                 <property name="frameShape">
                  <enum>QFrame::NoFrame</enum>

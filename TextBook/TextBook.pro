@@ -28,13 +28,15 @@ SOURCES += main.cpp\
     Model/slide.cpp \
     Model/contentitem.cpp \
     Model/contentpart.cpp \
-    Model/contentmodel.cpp
+    Model/contentmodel.cpp \
+    Model/lecture.cpp
 
 HEADERS  += mainwindow.h \
     Model/slide.h \
     Model/contentitem.h \
     Model/contentpart.h \
-    Model/contentmodel.h
+    Model/contentmodel.h \
+    Model/lecture.h
 
 FORMS    += mainwindow.ui
 

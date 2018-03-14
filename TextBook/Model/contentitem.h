@@ -6,10 +6,8 @@ class ContentPart;
 
 class ContentItem
 {
-protected:
-    ContentItem(ContentPart *parent);
-
 public:
+    ContentItem(ContentPart *parent);
     virtual ~ContentItem();
 
     ContentPart *parent() const { return m_parent; }
