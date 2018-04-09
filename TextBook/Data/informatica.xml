@@ -62,6 +62,37 @@
 </description>
 <image>informatica\motherboard.png</image>
 </slide>
+<quiz>
+<name>Лекция 1: Магистрально-модульный принцип, контрольные вопросы</name>
+<question>
+  <description>Какие шины входят в состав магистрали?</description>
+  <answer>1) Шина данных</answer>
+  <answer>2) Шины данных и адреса</answer>
+  <answer>3) Шина управления</answer>
+  <correctAnswer>4) Шины данных, адреса и управления</correctAnswer>
+</question>
+<question>
+  <description>Что определяет разрядность шины данных?</description>
+  <answer>1) Оперативная памятью</answer>
+  <answer>2) Пропускная способность устройств ввода/вывода</answer>
+  <correctAnswer>3) Разрядность процессора</correctAnswer>
+  <answer>4) Шина управления</answer>
+</question>
+<question>
+  <description>Сколько байт данных можно передать по 64-х разрядной шине за один такт?</description>
+  <answer>1) 4 байта</answer>
+  <correctAnswer>2) 8 байт</correctAnswer>
+  <answer>3) 16 байта</answer>
+  <answer>4) 64 байта</answer>
+</question>
+<question>
+  <description>Какой максимальный объем оперативной памяти поддерживается компьютером с 32-х битной шиной адреса?</description>
+  <answer>1) 1 гигабайт</answer>
+  <correctAnswer>2) 4 гигабайта</correctAnswer>
+  <answer>3) 32 гигабайта</answer>
+  <answer>4) 1 террабайт</answer>
+</question>
+</quiz>
 </lecture>
 <lecture>
 <name>Лекция 2: Процессор и оперативная память</name>
@@ -109,5 +140,32 @@
 </description>
 <image>informatica\virtual_memory.png</image>
 </slide>
+  <quiz>
+    <name>Лекция 2: Процессор и оперативная память, контрольные вопросы</name>
+    <question>
+      <description>Какой из блоков процессора отвечает за обработку декодированных команд и данных?</description>
+      <answer>1) Устройство управления</answer>
+      <answer>2) Декодер команд</answer>
+      <correctAnswer>3) Арифметико-логическое устройство</correctAnswer>
+    </question>
+    <question>
+      <description>Для чего предназначена кэш-память?</description>
+      <answer>1) Для хранения команд и данных</answer>
+      <correctAnswer>2) Для снижения простоев процессора</correctAnswer>
+      <answer>3) Для увеличения общего объема памяти</answer>
+    </question>
+    <question>
+      <description>Какой тип памяти имеет большее быстродействие?</description>
+      <correctAnswer>1) Кэш-память первого уровня</correctAnswer>
+      <answer>2) Кэш-память второго уровня</answer>
+      <answer>3) Оперативная память</answer>
+    </question>
+    <question>
+      <description>Какой тип памяти имеет больший объем?</description>
+      <answer>1) Кэш-память первого уровня</answer>
+      <answer>2) Кэш-память второго уровня</answer>
+      <correctAnswer>3) Оперативная память</correctAnswer>
+    </question>
+  </quiz>
 </lecture>
 </course>
