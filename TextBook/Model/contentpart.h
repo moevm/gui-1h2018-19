@@ -29,6 +29,7 @@ public:
     bool canForward() const;
     bool canBackward() const;
     bool canLevelUp() const;
+    virtual bool canQuiz() const;
 
     void reset();
     void forward();

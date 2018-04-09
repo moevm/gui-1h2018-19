@@ -13,3 +13,8 @@ Lecture::~Lecture()
         m_quiz = Q_NULLPTR;
     }
 }
+
+bool Lecture::canQuiz() const
+{
+    return m_quiz != Q_NULLPTR && canBackward() && !canForward();
+}

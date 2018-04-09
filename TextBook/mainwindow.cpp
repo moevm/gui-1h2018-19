@@ -85,7 +85,7 @@ void MainWindow::initModel()
 
 void MainWindow::enableControls()
 {
-    ui->butQuiz->setEnabled(false); // TODO
+    ui->butQuiz->setEnabled(currentContent->canQuiz());
     ui->butLevelUp->setEnabled(currentContent->canLevelUp());
     ui->butBackward->setEnabled(currentContent->canBackward());
     ui->butForward->setEnabled(currentContent->canForward());

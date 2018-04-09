@@ -46,6 +46,11 @@ bool ContentPart::canLevelUp() const
     return parent() != Q_NULLPTR;
 }
 
+bool ContentPart::canQuiz() const
+{
+    return false;
+}
+
 void ContentPart::reset()
 {
     m_selectedIndex = -1;

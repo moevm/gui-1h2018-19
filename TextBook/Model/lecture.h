@@ -13,6 +13,8 @@ public:
 
     ContentViewType viewType() const { return ContentViewType::SlideView; }
 
+    bool canQuiz() const;
+
     Quiz *quiz() { return m_quiz; }
 
 private:
