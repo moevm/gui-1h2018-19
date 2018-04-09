@@ -54,6 +54,8 @@ void XmlContentImporter::importLecture(ContentPart * course)
                 lecture->setDescription(m_reader.readElementText());
             else if (m_reader.name() == "slide")
                 importSlide(lecture);
+            else if (m_reader.name() == "quiz")
+                importQuiz(lecture);
         }
         m_reader.readNext();
     }
@@ -72,6 +74,46 @@ void XmlContentImporter::importSlide(Lecture *lecture)
                 slide->setDescription(m_reader.readElementText());
             else if (m_reader.name() == "image")
                 slide->setImagePath(m_reader.readElementText());
+        }
+        m_reader.readNext();
+    }
+}
+
+void XmlContentImporter::importQuiz(Lecture *lecture)
+{
+    Quiz* quiz = new Quiz(lecture);
+    m_reader.readNext();
+    while (!m_reader.hasError() &&
+           !(m_reader.tokenType() == QXmlStreamReader::EndElement && m_reader.name() == "quiz")) {
+        if (m_reader.tokenType() == QXmlStreamReader::StartElement) {
+            if (m_reader.name() == "name")
+                quiz->setName(m_reader.readElementText());
+            else if (m_reader.name() == "description")
+                quiz->setDescription(m_reader.readElementText());
+            else if (m_reader.name() == "quiestion")
+                importQuestion(quiz);
+        }
+        m_reader.readNext();
+    }
+}
+
+void XmlContentImporter::importQuestion(Quiz *quiz)
+{
+    Question* question = new Question(quiz);
+    m_reader.readNext();
+    while (!m_reader.hasError() &&
+           !(m_reader.tokenType() == QXmlStreamReader::EndElement && m_reader.name() == "question")) {
+        if (m_reader.tokenType() == QXmlStreamReader::StartElement) {
+            if (m_reader.name() == "name")
+                question->setName(m_reader.readElementText());
+            else if (m_reader.name() == "description")
+                question->setDescription(m_reader.readElementText());
+            else if (m_reader.name() == "answer")
+                question->answers().append(m_reader.readElementText());
+            else if (m_reader.name() == "correctAnswer") {
+                question->answers().append(m_reader.readElementText());
+                question->setCorrectAnswerIndex(question->answers().count() - 1);
+            }
         }
         m_reader.readNext();
     }
