@@ -125,7 +125,7 @@ void MainWindow::updateView()
 
 QString MainWindow::dataFolder() const
 {
-    return "G:/Qt/TextBookQt_6/TextBook/Data";
+    return "D:/Git/gui-1h2018-19/TextBook/Data";
 }
 
 void MainWindow::loadSlideImage(QString imagePath)
