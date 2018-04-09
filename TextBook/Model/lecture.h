@@ -1,13 +1,22 @@
 #ifndef LECTURE_H
 #define LECTURE_H
 #include "contentpart.h"
+#include "quiz.h"
 
 class Lecture : public ContentPart
 {
+    friend class Quiz;
+
 public:
     Lecture(ContentPart *parent);
+    ~Lecture();
 
     ContentViewType viewType() const { return ContentViewType::SlideView; }
+
+    Quiz *quiz() { return m_quiz; }
+
+private:
+    Quiz *m_quiz;
 };
 
 #endif // LECTURE_H

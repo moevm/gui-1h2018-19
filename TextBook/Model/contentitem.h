@@ -18,6 +18,9 @@ public:
     QString description() const { return m_description; }
     void setDescription(const QString &value) { m_description = value; }
 
+protected:
+    void setParent(ContentPart *parent) { m_parent = parent; }
+
 private:
     ContentPart *m_parent;
     QString m_name;

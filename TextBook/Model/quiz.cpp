@@ -1,7 +1,9 @@
 #include "quiz.h"
+#include "lecture.h"
 
-Quiz::Quiz(ContentPart *parent)
-    : ContentPart(parent)
+Quiz::Quiz(Lecture *parent)
+    : ContentPart(Q_NULLPTR)
 {
-
+    setParent(parent);
+    parent->m_quiz = this;
 }

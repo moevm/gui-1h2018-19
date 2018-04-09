@@ -2,10 +2,12 @@
 #define QUIZ_H
 #include "contentpart.h"
 
+class Lecture;
+
 class Quiz : public ContentPart
 {
 public:
-    Quiz(ContentPart *parent);
+    Quiz(Lecture *parent);
 
     ContentViewType viewType() const { return ContentViewType::QuizView; }
 };
