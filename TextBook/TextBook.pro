@@ -30,7 +30,9 @@ SOURCES += main.cpp\
     Model/contentpart.cpp \
     Model/contentmodel.cpp \
     Model/lecture.cpp \
-    Import/xmlimporter.cpp
+    Import/xmlimporter.cpp \
+    Model/quiz.cpp \
+    Model/question.cpp
 
 HEADERS  += mainwindow.h \
     Model/slide.h \
@@ -38,7 +40,9 @@ HEADERS  += mainwindow.h \
     Model/contentpart.h \
     Model/contentmodel.h \
     Model/lecture.h \
-    Import/xmlimporter.h
+    Import/xmlimporter.h \
+    Model/quiz.h \
+    Model/question.h
 
 FORMS    += mainwindow.ui
 

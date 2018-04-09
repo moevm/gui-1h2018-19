@@ -5,7 +5,8 @@
 
 enum ContentViewType {
     SelectorView,
-    SlideView
+    SlideView,
+    QuizView
 };
 
 class ContentPart : public ContentItem
