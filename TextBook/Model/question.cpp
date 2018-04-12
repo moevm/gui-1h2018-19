@@ -5,6 +5,7 @@ Question::Question(ContentPart *parent)
 {
     m_selectedAnswerIndex = -1;
     m_correctAnswerIndex = -2;
+    m_progress = 0.0f;
 }
 
 void Question::setSelectedAnswerIndex(int value)
@@ -23,4 +24,19 @@ void Question::setCorrectAnswerIndex(int value)
     if (value < 0)
         value = -2;
     m_correctAnswerIndex = value;
+}
+
+void Question::setProgress(float value)
+{
+    if (value < 0.0f)
+        value = 0.0f;
+    if (value > 1.0f)
+        value = 1.0f;
+    m_progress = value;
+}
+
+void Question::collectProgress(QHash<QString, float> &progressHash)
+{
+    if (m_progress > 0.0f && !id().isEmpty())
+        progressHash[id()] = m_progress;
 }

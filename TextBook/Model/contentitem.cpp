@@ -3,6 +3,7 @@
 
 ContentItem::ContentItem(ContentPart *parent)
 {
+    m_id = "";
     m_name = "";
     m_description = "";
     m_parent = parent;

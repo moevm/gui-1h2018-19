@@ -7,3 +7,10 @@ Quiz::Quiz(Lecture *parent)
     setParent(parent);
     parent->m_quiz = this;
 }
+
+bool Quiz::canForward() const
+{
+    if (items().count() == 0)
+        return false;
+    return selectedIndex() >= 0 && selectedIndex() < items().count();
+}

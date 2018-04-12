@@ -19,10 +19,15 @@ public:
     void setSelectedAnswerIndex(int value);
     void setCorrectAnswerIndex(int value);
 
+    float progress() const { return m_progress; }
+    void setProgress(float value);
+    void collectProgress(QHash<QString, float> &progressHash);
+
 private:
     QStringList m_answers;
     int m_selectedAnswerIndex;
     int m_correctAnswerIndex;
+    float m_progress;
 };
 
 #endif // QUESTION_H

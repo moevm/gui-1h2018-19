@@ -10,6 +10,7 @@ public:
     Quiz(Lecture *parent);
 
     ContentViewType viewType() const { return ContentViewType::QuizView; }
+    bool canForward() const;
 };
 
 #endif // QUIZ_H

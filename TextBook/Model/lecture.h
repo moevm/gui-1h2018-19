@@ -17,6 +17,9 @@ public:
 
     Quiz *quiz() { return m_quiz; }
 
+    float progress() const;
+    void collectProgress(QHash<QString, float> &progressHash);
+
 private:
     Quiz *m_quiz;
 };

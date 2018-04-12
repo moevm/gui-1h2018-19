@@ -1,9 +1,11 @@
 #ifndef XMLIMPORTER_H
 #define XMLIMPORTER_H
 #include <QString>
+#include <QHash>
 #include <QXmlStreamReader>
 #include "Model/contentpart.h"
 #include "Model/contentmodel.h"
+#include "Model/course.h"
 #include "Model/lecture.h"
 #include "Model/slide.h"
 #include "Model/quiz.h"
@@ -18,6 +20,9 @@ public:
 
 private:
     QXmlStreamReader m_reader;
+    QHash<QString, float> m_progressHash;
+
+    void loadProgressHash(QString filePath);
     void importLecture(ContentPart *course);
     void importSlide(Lecture *lecture);
     void importQuiz(Lecture *lecture);

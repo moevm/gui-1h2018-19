@@ -26,7 +26,7 @@ public:
 
     ContentItem* selectedItem() const;
 
-    bool canForward() const;
+    virtual bool canForward() const;
     bool canBackward() const;
     bool canLevelUp() const;
     virtual bool canQuiz() const;
@@ -35,6 +35,10 @@ public:
     void forward();
     void backward();
     void clear();
+
+    float progress() const;
+    void setProgress(float) { }
+    void collectProgress(QHash<QString, float> &progressHash);
 
 private:
     QList<ContentItem *> m_items;

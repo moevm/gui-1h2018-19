@@ -7,7 +7,7 @@ class ContentModel : public ContentPart
 public:
     ContentModel();
 
-    // TODO
+    void saveProgress();
 };
 
 #endif // CONTENTMODEL_H

@@ -13,7 +13,7 @@ bool XmlContentImporter::importCourse(ContentModel *model, QString filePath)
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
         return false;
 
-    ContentPart *course = Q_NULLPTR;
+    Course *course = Q_NULLPTR;
 
     m_reader.setDevice(&file);
 
@@ -21,8 +21,11 @@ bool XmlContentImporter::importCourse(ContentModel *model, QString filePath)
         m_reader.readNext();
         if (m_reader.tokenType() == QXmlStreamReader::StartElement) {
             if (course == Q_NULLPTR) {
-                if (m_reader.name() == "course")
-                    course = new ContentPart(model);
+                if (m_reader.name() == "course") {
+                    course = new Course(model);
+                    course->setFilePath(filePath);
+                    loadProgressHash(course->progressPath());
+                }
             }
             else {
                 if (m_reader.name() == "name")
@@ -39,6 +42,17 @@ bool XmlContentImporter::importCourse(ContentModel *model, QString filePath)
     m_reader.clear();
     file.close();
     return success;
+}
+
+void XmlContentImporter::loadProgressHash(QString filePath)
+{
+    m_progressHash.clear();
+    QFile file(filePath);
+    if (file.open(QIODevice::ReadOnly)) {
+        QDataStream in(&file);
+        in >> m_progressHash;
+        file.close();
+    }
 }
 
 void XmlContentImporter::importLecture(ContentPart * course)
@@ -68,7 +82,9 @@ void XmlContentImporter::importSlide(Lecture *lecture)
     while (!m_reader.hasError() &&
            !(m_reader.tokenType() == QXmlStreamReader::EndElement && m_reader.name() == "slide")) {
         if (m_reader.tokenType() == QXmlStreamReader::StartElement) {
-            if (m_reader.name() == "name")
+            if (m_reader.name() == "id")
+                slide->setId(m_reader.readElementText());
+            else if (m_reader.name() == "name")
                 slide->setName(m_reader.readElementText());
             else if (m_reader.name() == "description")
                 slide->setDescription(m_reader.readElementText());
@@ -77,6 +93,8 @@ void XmlContentImporter::importSlide(Lecture *lecture)
         }
         m_reader.readNext();
     }
+    if (m_progressHash.contains(slide->id()))
+        slide->setProgress(m_progressHash[slide->id()]);
 }
 
 void XmlContentImporter::importQuiz(Lecture *lecture)
@@ -90,7 +108,7 @@ void XmlContentImporter::importQuiz(Lecture *lecture)
                 quiz->setName(m_reader.readElementText());
             else if (m_reader.name() == "description")
                 quiz->setDescription(m_reader.readElementText());
-            else if (m_reader.name() == "quiestion")
+            else if (m_reader.name() == "question")
                 importQuestion(quiz);
         }
         m_reader.readNext();
@@ -104,7 +122,9 @@ void XmlContentImporter::importQuestion(Quiz *quiz)
     while (!m_reader.hasError() &&
            !(m_reader.tokenType() == QXmlStreamReader::EndElement && m_reader.name() == "question")) {
         if (m_reader.tokenType() == QXmlStreamReader::StartElement) {
-            if (m_reader.name() == "name")
+            if (m_reader.name() == "id")
+                question->setId(m_reader.readElementText());
+            else if (m_reader.name() == "name")
                 question->setName(m_reader.readElementText());
             else if (m_reader.name() == "description")
                 question->setDescription(m_reader.readElementText());
@@ -117,4 +137,6 @@ void XmlContentImporter::importQuestion(Quiz *quiz)
         }
         m_reader.readNext();
     }
+    if (m_progressHash.contains(question->id()))
+        question->setProgress(m_progressHash[question->id()]);
 }

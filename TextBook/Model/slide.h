@@ -18,8 +18,13 @@ public:
     QString imagePath() const { return m_imagePath; }
     void setImagePath(const QString &value) { m_imagePath = value; }
 
+    float progress() const { return m_progress; }
+    void setProgress(float value);
+    void collectProgress(QHash<QString, float> &progressHash);
+
 private:
     QString m_imagePath;
+    float m_progress;
 };
 
 #endif // SLIDE_H
