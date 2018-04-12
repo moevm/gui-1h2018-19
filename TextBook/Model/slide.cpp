@@ -1,17 +1,23 @@
 #include "slide.h"
 
-Slide::Slide()
-    : TextbookItem()
+Slide::Slide(ContentPart *parent)
+    : ContentItem(parent)
 {
-    m_imageFileName = "";
+    m_imagePath = "";
+    m_progress = 0.0f;
 }
 
-QString Slide::imageFileName() const
+void Slide::setProgress(float value)
 {
-    return m_imageFileName;
+    if (value < 0.0f)
+        value = 0.0f;
+    if (value > 1.0f)
+        value = 1.0f;
+    m_progress = value;
 }
 
-void Slide::setImageFileName(const QString &value)
+void Slide::collectProgress(QHash<QString, float> &progressHash)
 {
-    m_imageFileName = value;
+    if (m_progress > 0.0f && !id().isEmpty())
+        progressHash[id()] = m_progress;
 }

@@ -1,28 +1,41 @@
 #include "lecture.h"
 
-Lecture::Lecture()
-    :TextbookItem(), QList<Slide*>()
+Lecture::Lecture(ContentPart *parent)
+    : ContentPart(parent)
 {
-    m_selectedIndex = -1;
+    m_quiz = Q_NULLPTR;
 }
 
 Lecture::~Lecture()
 {
-    foreach(Slide* item, this)
-        delete item;
-    clear();
+    if (m_quiz != Q_NULLPTR) {
+        delete m_quiz;
+        m_quiz = Q_NULLPTR;
+    }
 }
 
-int Lecture::selectedIndex() const
+bool Lecture::canQuiz() const
 {
-    return m_selectedIndex;
+    return m_quiz != Q_NULLPTR && canBackward() && !canForward();
 }
 
-void Lecture::setSelectedIndex(int value)
+float Lecture::progress() const
 {
-    if (value < 0)
-        value = -1;
-    if (value > count())
-        value = count() - 1;
-    m_selectedIndex = value;
+    float result = ContentPart::progress();
+    if (m_quiz != Q_NULLPTR) {
+        int slideCount = items().count();
+        int quizCount = m_quiz->items().count();
+        result = (result * slideCount + m_quiz->progress() * quizCount);
+        int count = slideCount + quizCount;
+        if (count > 1)
+            result /= count;
+    }
+    return result;
+}
+
+void Lecture::collectProgress(QHash<QString, float> &progressHash)
+{
+    ContentPart::collectProgress(progressHash);
+    if (m_quiz != Q_NULLPTR)
+        m_quiz->collectProgress(progressHash);
 }

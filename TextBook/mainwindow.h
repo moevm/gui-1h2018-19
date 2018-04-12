@@ -2,6 +2,8 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QGraphicsScene>
+#include "Model/contentmodel.h"
 
 namespace Ui {
 class MainWindow;
@@ -22,8 +24,20 @@ private slots:
     void on_butLevelUp_clicked();
     void on_butQuiz_clicked();
 
+    void on_selectorList_currentRowChanged(int currentRow);
+
 private:
     Ui::MainWindow *ui;
+    ContentModel *model;
+    ContentPart *currentContent;
+    QGraphicsScene *scene;
+
+    void initModel();
+    void enableControls();
+    void updateView();
+
+    QString dataFolder() const;
+    void loadSlideImage(QString imagePath);
 };
 
 #endif // MAINWINDOW_H

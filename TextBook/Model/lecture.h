@@ -1,20 +1,27 @@
 #ifndef LECTURE_H
 #define LECTURE_H
-#include <QList>
-#include "textbookitem.h"
-#include "slide.h"
+#include "contentpart.h"
+#include "quiz.h"
 
-class Lecture : public TextbookItem, public QList<Slide*>
+class Lecture : public ContentPart
 {
+    friend class Quiz;
+
 public:
-    Lecture();
+    Lecture(ContentPart *parent);
     ~Lecture();
 
-    int selectedIndex() const;
-    void setSelectedIndex(int value);
+    ContentViewType viewType() const { return ContentViewType::SlideView; }
+
+    bool canQuiz() const;
+
+    Quiz *quiz() { return m_quiz; }
+
+    float progress() const;
+    void collectProgress(QHash<QString, float> &progressHash);
 
 private:
-    int m_selectedIndex;
+    Quiz *m_quiz;
 };
 
 #endif // LECTURE_H
