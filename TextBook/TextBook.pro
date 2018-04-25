@@ -33,7 +33,9 @@ SOURCES += main.cpp\
     Import/xmlimporter.cpp \
     Model/quiz.cpp \
     Model/question.cpp \
-    Model/course.cpp
+    Model/course.cpp \
+    optionsdialog.cpp \
+    navigatorwidget.cpp
 
 HEADERS  += mainwindow.h \
     Model/slide.h \
@@ -44,9 +46,12 @@ HEADERS  += mainwindow.h \
     Import/xmlimporter.h \
     Model/quiz.h \
     Model/question.h \
-    Model/course.h
+    Model/course.h \
+    optionsdialog.h \
+    navigatorwidget.h
 
-FORMS    += mainwindow.ui
+FORMS    += mainwindow.ui \
+    optionsdialog.ui
 
 RESOURCES += \
     resources.qrc

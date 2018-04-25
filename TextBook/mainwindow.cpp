@@ -5,18 +5,22 @@
 #include <QMessageBox>
 #include <QDir>
 #include <QDebug>
+#include <QDialogButtonBox>
 #include "Model/slide.h"
 #include "Model/lecture.h"
 #include "Import/xmlimporter.h"
+#include "optionsdialog.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
+    m_dataFolder = "F:/Git/Sandbox/TextBook/Data";
     scene = new QGraphicsScene();
     initModel();
     currentContent = model;
     ui->setupUi(this);
+    initNavigator();
     enableControls();
     updateView();
 }
@@ -33,11 +37,11 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_butInfo_clicked()
 {
-    QMessageBox::about(this, "О Программе",
-                       "Электронный учебник\n\n"
-                       "Разработала:\n"
-                       "студентка группы 5303 Табунникова Н.Р.\n"
-                       "\nЛЭТИ, Санкт-Петербург, 2018 год.\n");
+    OptionsDialog *dialog = new OptionsDialog(this);
+    dialog->setDataFolder(dataFolder());
+    int result = dialog->exec();
+    if (result == QDialog::Accepted)
+        setDataFolder(dialog->dataFolder());
 }
 
 void MainWindow::on_butForward_clicked()
@@ -57,7 +61,7 @@ void MainWindow::on_butForward_clicked()
             }
             if (selectedAnswerIndex != question->correctAnswerIndex()) {
                 QMessageBox::warning(this, "Контрольные вопросы", "Вы ответили неправильно!");
-                question->setProgress(0.1f);
+                question->setProgress(0.2f);
             }
             else {
                 QMessageBox::warning(this, "Контрольные вопросы", "Вы дали правильный ответ!");
@@ -138,6 +142,7 @@ void MainWindow::updateView()
             ui->selectorList->addItem(str);
         }
         ui->selectorList->setCurrentRow(currentContent->selectedIndex());
+        navigator->setSize(0);
     }
     else if (currentContent->viewType() == ContentViewType::SlideView) {
         if (ui->stackedWidget->currentIndex() != 1)
@@ -157,6 +162,7 @@ void MainWindow::updateView()
             loadSlideImage(slide->imagePath());
         else
             loadSlideImage("");
+        updateNavigator();
     }
     else if (currentContent->viewType() == ContentViewType::QuizView) {
         if (ui->stackedWidget->currentIndex() != 2)
@@ -171,12 +177,28 @@ void MainWindow::updateView()
                 ui->questionList->addItem(answer);
             }
         }
+        updateNavigator();
     }
 }
 
 QString MainWindow::dataFolder() const
 {
-    return "G:/Qt/TextBookQt_12/TextBook/Data";
+    return m_dataFolder;
+}
+
+void MainWindow::setDataFolder(const QString &value)
+{
+    if (m_dataFolder != value) {
+        if (model != Q_NULLPTR) {
+            model->saveProgress();
+            delete model;
+        }
+        m_dataFolder = value;
+        initModel();
+        currentContent = model;
+        enableControls();
+        updateView();
+    }
 }
 
 void MainWindow::loadSlideImage(QString imagePath)
@@ -194,7 +216,28 @@ void MainWindow::loadSlideImage(QString imagePath)
         QRect frameRect = ui->slideImage->rect();
         if (imageRect.width() > frameRect.width() || imageRect.height() > frameRect.height())
             ui->slideImage->fitInView(imageRect, Qt::KeepAspectRatio);
+        else
+            ui->slideImage->resetTransform();
     }
+}
+
+void MainWindow::initNavigator()
+{
+    navigator = new NavigatorWidget(ui->navPanel);
+    navigator->setSize(0);
+    QLayout *navLayout = new QHBoxLayout();
+    navLayout->addWidget(navigator);
+    ui->navPanel->setLayout(navLayout);
+    QObject::connect(navigator, SIGNAL(selectedIndexChanged()), this, SLOT(on_selectedIndexChanged()));
+}
+
+void MainWindow::updateNavigator()
+{
+    int count = currentContent->items().size();
+    navigator->setSize(count);
+    for (int i = 0; i < count; i++)
+        navigator->setValue(i, currentContent->items().at(i)->progress());
+    navigator->setSelectedIndex(currentContent->selectedIndex());
 }
 
 void MainWindow::on_selectorList_currentRowChanged(int currentRow)
@@ -205,4 +248,11 @@ void MainWindow::on_selectorList_currentRowChanged(int currentRow)
         ui->selectorTextArea->setText(item->description());
     else
         ui->selectorTextArea->setText("");
+}
+
+void MainWindow::on_selectedIndexChanged()
+{
+    currentContent->setSelectedIndex(navigator->selectedIndex());
+    enableControls();
+    updateView();
 }

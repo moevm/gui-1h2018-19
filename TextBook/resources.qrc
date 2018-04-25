@@ -6,5 +6,6 @@
         <file>Images/Forward40x40.png</file>
         <file>Images/Top40x40.png</file>
         <file>Icons/textbook.ico</file>
+        <file>Images/Options40x40.png</file>
     </qresource>
 </RCC>

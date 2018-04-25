@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QGraphicsScene>
 #include "Model/contentmodel.h"
+#include "navigatorwidget.h"
 
 namespace Ui {
 class MainWindow;
@@ -26,18 +27,26 @@ private slots:
 
     void on_selectorList_currentRowChanged(int currentRow);
 
+    void on_selectedIndexChanged();
+
 private:
     Ui::MainWindow *ui;
     ContentModel *model;
     ContentPart *currentContent;
     QGraphicsScene *scene;
+    QString m_dataFolder;
+    NavigatorWidget *navigator;
 
     void initModel();
     void enableControls();
     void updateView();
 
     QString dataFolder() const;
+    void setDataFolder(const QString &value);
     void loadSlideImage(QString imagePath);
+
+    void initNavigator();
+    void updateNavigator();
 };
 
 #endif // MAINWINDOW_H
