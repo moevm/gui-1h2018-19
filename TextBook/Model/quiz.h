@@ -11,6 +11,9 @@ public:
 
     ContentViewType viewType() const { return ContentViewType::QuizView; }
     bool canForward() const;
+
+    int correctAnswersCount() const;
+    float averageMark() const;
 };
 
 #endif // QUIZ_H

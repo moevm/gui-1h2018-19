@@ -37,7 +37,7 @@ public:
     void clear();
 
     float progress() const;
-    void setProgress(float) { }
+    void setProgress(float value);
     void collectProgress(QHash<QString, float> &progressHash);
 
 private:

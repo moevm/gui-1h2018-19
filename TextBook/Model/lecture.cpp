@@ -33,6 +33,13 @@ float Lecture::progress() const
     return result;
 }
 
+void Lecture::setProgress(float value)
+{
+    ContentPart::setProgress(value);
+    if (m_quiz != Q_NULLPTR)
+        m_quiz->setProgress(value);
+}
+
 void Lecture::collectProgress(QHash<QString, float> &progressHash)
 {
     ContentPart::collectProgress(progressHash);

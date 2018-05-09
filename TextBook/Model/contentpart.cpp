@@ -86,6 +86,13 @@ float ContentPart::progress() const
     return result;
 }
 
+void ContentPart::setProgress(float value)
+{
+    int count = m_items.count();
+    for (int i = 0; i < count; i++)
+        m_items[i]->setProgress(value);
+}
+
 void ContentPart::collectProgress(QHash<QString, float> &progressHash)
 {
     int count = m_items.count();

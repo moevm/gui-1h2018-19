@@ -81,7 +81,7 @@
            </size>
           </property>
           <property name="toolTip">
-           <string>Инфо</string>
+           <string>Настройки</string>
           </property>
           <property name="text">
            <string/>
@@ -272,6 +272,9 @@
                   <family>Century Gothic</family>
                   <pointsize>12</pointsize>
                  </font>
+                </property>
+                <property name="contextMenuPolicy">
+                 <enum>Qt::CustomContextMenu</enum>
                 </property>
                 <property name="frameShape">
                  <enum>QFrame::NoFrame</enum>

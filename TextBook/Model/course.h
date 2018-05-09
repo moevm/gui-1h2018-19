@@ -12,6 +12,8 @@ public:
 
     QString progressPath() const;
 
+    float averageMark() const;
+
 private:
     QString m_filePath;
 };

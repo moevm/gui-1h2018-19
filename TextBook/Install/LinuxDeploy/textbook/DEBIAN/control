@@ -1,0 +1,7 @@
+Package: textbook
+Version: 1.0
+Section: misc
+Architecture: amd64
+Maintainer: FlashyFire
+Description: Electronic textbook
+

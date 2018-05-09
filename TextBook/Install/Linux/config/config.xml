@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Installer>
+    <Name>Электронный учебник</Name>
+    <Version>1.0.0</Version>
+    <Title>Электронный учебник</Title>
+    <Publisher>ЛЭТИ</Publisher>
+    <StartMenuDir>Электронный учебник</StartMenuDir>
+    <TargetDir>@HomeDir@/Textbook</TargetDir>
+    <RunProgram>@TargetDir@/TextBook</RunProgram>
+</Installer>

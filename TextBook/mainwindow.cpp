@@ -6,19 +6,23 @@
 #include <QDir>
 #include <QDebug>
 #include <QDialogButtonBox>
+#include <QMenu>
+#include <QSettings>
+#include <QApplication>
 #include "Model/slide.h"
 #include "Model/lecture.h"
 #include "Import/xmlimporter.h"
 #include "optionsdialog.h"
 
+#define QUIZ_TITLE "Контрольные вопросы"
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
-    m_dataFolder = "F:/Git/Sandbox/TextBook/Data";
     scene = new QGraphicsScene();
+    loadSettings();
     initModel();
-    currentContent = model;
     ui->setupUi(this);
     initNavigator();
     enableControls();
@@ -52,26 +56,8 @@ void MainWindow::on_butForward_clicked()
             currentContent->forward();
     }
     else if (currentContent->viewType() == ContentViewType::QuizView) {
-        Question* question = dynamic_cast<Question*>(currentContent->selectedItem());
-        if (question != Q_NULLPTR) {
-            int selectedAnswerIndex = ui->questionList->currentRow();
-            if (selectedAnswerIndex < 0) {
-                QMessageBox::warning(this, "Контрольные вопросы", "Выберите один из ответов на вопрос!");
-                return;
-            }
-            if (selectedAnswerIndex != question->correctAnswerIndex()) {
-                QMessageBox::warning(this, "Контрольные вопросы", "Вы ответили неправильно!");
-                question->setProgress(0.2f);
-            }
-            else {
-                QMessageBox::warning(this, "Контрольные вопросы", "Вы дали правильный ответ!");
-                question->setProgress(1.0f);
-            }
-            if (currentContent->selectedIndex() == currentContent->items().count() - 1)
-                currentContent = currentContent->parent();
-            else
-                currentContent->forward();
-        }
+        if (!checkQuiz())
+            return;
     }
     else
         currentContent->forward();
@@ -88,6 +74,12 @@ void MainWindow::on_butBackward_clicked()
 
 void MainWindow::on_butLevelUp_clicked()
 {
+    if (currentContent->viewType() == ContentViewType::QuizView) {
+        int result = QMessageBox::question(this, QUIZ_TITLE,
+            "Прервать выполнение контрольной работы?");
+        if (result != QMessageBox::StandardButton::Yes)
+            return;
+    }
     currentContent = currentContent->parent();
     enableControls();
     updateView();
@@ -116,6 +108,7 @@ void MainWindow::initModel()
         importer.importCourse(model, dir.absoluteFilePath(entry));
 
     model->forward();
+    currentContent = model;
 }
 
 void MainWindow::enableControls()
@@ -195,9 +188,9 @@ void MainWindow::setDataFolder(const QString &value)
         }
         m_dataFolder = value;
         initModel();
-        currentContent = model;
         enableControls();
         updateView();
+        saveSettings();
     }
 }
 
@@ -221,6 +214,48 @@ void MainWindow::loadSlideImage(QString imagePath)
     }
 }
 
+bool MainWindow::checkQuiz()
+{
+    Question* question = dynamic_cast<Question*>(currentContent->selectedItem());
+    if (question != Q_NULLPTR) {
+        int selectedAnswerIndex = ui->questionList->currentRow();
+        if (selectedAnswerIndex < 0) {
+            QMessageBox::warning(this, QUIZ_TITLE,
+                "Выберите один из ответов на вопрос!");
+            return false;
+        }
+        if (selectedAnswerIndex != question->correctAnswerIndex()) {
+            question->setProgress(0.2f);
+            updateNavigator();
+            QMessageBox::warning(this, QUIZ_TITLE,
+                "Вы ответили неправильно!");
+        }
+        else {
+            question->setProgress(1.0f);
+            updateNavigator();
+            QMessageBox::warning(this, QUIZ_TITLE,
+                "Вы дали правильный ответ!");
+        }
+        if (currentContent->selectedIndex() == currentContent->items().count() - 1) {
+            Quiz *quiz = dynamic_cast<Quiz*>(currentContent);
+            if (quiz != Q_NULLPTR) {
+                QString str = quiz->name();
+                str.append("\nПравильных ответов: ");
+                str.append(QString::number(quiz->correctAnswersCount()));
+                str.append(" из ");
+                str.append(QString::number(quiz->items().count()));
+                str.append("\nСредняя оценка: ");
+                str.append(QString::number(quiz->averageMark(), 'f', 2));
+                QMessageBox::information(this, QUIZ_TITLE, str);
+            }
+            currentContent = currentContent->parent();
+        }
+        else
+            currentContent->forward();
+    }
+    return true;
+}
+
 void MainWindow::initNavigator()
 {
     navigator = new NavigatorWidget(ui->navPanel);
@@ -240,6 +275,19 @@ void MainWindow::updateNavigator()
     navigator->setSelectedIndex(currentContent->selectedIndex());
 }
 
+void MainWindow::loadSettings()
+{
+    QSettings settings("Eltech", "TextBook");
+    QString defaultDataFolder = QApplication::applicationDirPath() + "/Data";
+    m_dataFolder = settings.value("dataFolder", defaultDataFolder).toString();
+}
+
+void MainWindow::saveSettings()
+{
+    QSettings settings("Eltech", "TextBook");
+    settings.setValue("dataFolder", m_dataFolder);
+}
+
 void MainWindow::on_selectorList_currentRowChanged(int currentRow)
 {
     currentContent->setSelectedIndex(currentRow);
@@ -255,4 +303,44 @@ void MainWindow::on_selectedIndexChanged()
     currentContent->setSelectedIndex(navigator->selectedIndex());
     enableControls();
     updateView();
+}
+
+void MainWindow::on_selectorList_customContextMenuRequested(const QPoint &pos)
+{
+    if (currentContent->canLevelUp())
+        return;
+    Course *course = dynamic_cast<Course*>(currentContent->selectedItem());
+    if (course == Q_NULLPTR || course->progress() == 0.0f)
+        return;
+    QPoint globalPos = ui->selectorList->mapToGlobal(pos);
+    QMenu menu;
+    menu.addAction("Начать курс заново...", this, SLOT(on_resetProgress()));
+    menu.addAction("Прогресс и оценка...", this, SLOT(on_showCourseInfo()));
+    menu.exec(globalPos);
+}
+
+void MainWindow::on_resetProgress()
+{
+    int result = QMessageBox::question(this, windowTitle(),
+        "Сбросить прогресс освоения курса и начать курс заново?");
+    if (result == QMessageBox::StandardButton::Yes) {
+        Course *course = dynamic_cast<Course*>(currentContent->selectedItem());
+        if (course != Q_NULLPTR)
+            course->setProgress(0.0f);
+        updateView();
+    }
+}
+
+void MainWindow::on_showCourseInfo()
+{
+    Course *course = dynamic_cast<Course*>(currentContent->selectedItem());
+    if (course == Q_NULLPTR)
+        return;
+    QString str = "Учебный курс: ";
+    str.append(course->name());
+    str.append("\nПрогресс освоения: ");
+    str.append(QString::number((int)(course->progress() * 100)));
+    str.append("%\nСредняя оценка: ");
+    str.append(QString::number(course->averageMark(), 'f', 2));
+    QMessageBox::information(this, windowTitle(), str);
 }

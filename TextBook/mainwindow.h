@@ -26,8 +26,10 @@ private slots:
     void on_butQuiz_clicked();
 
     void on_selectorList_currentRowChanged(int currentRow);
-
     void on_selectedIndexChanged();
+    void on_selectorList_customContextMenuRequested(const QPoint &pos);
+    void on_resetProgress();
+    void on_showCourseInfo();
 
 private:
     Ui::MainWindow *ui;
@@ -45,8 +47,13 @@ private:
     void setDataFolder(const QString &value);
     void loadSlideImage(QString imagePath);
 
+    bool checkQuiz();
+
     void initNavigator();
     void updateNavigator();
+
+    void loadSettings();
+    void saveSettings();
 };
 
 #endif // MAINWINDOW_H

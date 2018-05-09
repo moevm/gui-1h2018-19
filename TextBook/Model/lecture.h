@@ -18,6 +18,7 @@ public:
     Quiz *quiz() { return m_quiz; }
 
     float progress() const;
+    void setProgress(float value);
     void collectProgress(QHash<QString, float> &progressHash);
 
 private:
