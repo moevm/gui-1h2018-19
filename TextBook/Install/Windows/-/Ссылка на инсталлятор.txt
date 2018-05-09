@@ -1,4 +1,0 @@
-Так как GitHub не загружает файлы больше 25 Мб,
-файл installer.exe был загружен на OneDrive
-Ссылка: https://1drv.ms/u/s!AhPX65WsvRrjvFPrObdFxivdIZ-7
-Он должен быть помещен в папку Windows
